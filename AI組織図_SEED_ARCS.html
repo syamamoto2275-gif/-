@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>株式会社SEED／株式会社ARCS AIエージェント組織図</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F4EFE6;--ink:#211B16;--soft:#574E44;--vermilion:#C0392B;--gold:#B08524;--jade:#3F7A5E;--line:#D8CFBF;--card:#FBF8F2}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--paper);color:var(--ink);line-height:1.8;padding:40px 18px;
+    background-image:radial-gradient(circle at 18% 8%,rgba(192,57,43,.05),transparent 40%),radial-gradient(circle at 88% 82%,rgba(176,133,36,.06),transparent 45%)}
+  .wrap{max-width:1000px;margin:0 auto}
+  .head{text-align:center;border-bottom:3px double var(--ink);padding-bottom:20px;margin-bottom:30px}
+  .head .eyebrow{font-size:.78rem;letter-spacing:.3em;color:var(--vermilion);font-weight:700}
+  .head h1{font-family:'Noto Serif JP',serif;font-weight:900;font-size:clamp(1.5rem,4vw,2.3rem);margin:10px 0 6px}
+  .head .meta{font-size:.86rem;color:var(--soft)}
+  .layer-label{text-align:center;font-size:.76rem;font-weight:700;color:var(--soft);letter-spacing:.12em;margin:0 0 8px}
+  .node{border-radius:14px;padding:14px 18px;text-align:center;color:#fff;box-shadow:0 8px 20px rgba(33,27,22,.14)}
+  .owner{background:var(--ink);max-width:360px;margin:0 auto}
+  .owner .name{font-family:'Noto Serif JP',serif;font-weight:700;font-size:1.18rem}
+  .owner .role{font-size:.78rem;color:#C9BFAE;margin-top:2px}
+  .conn{width:2px;height:24px;background:var(--line);margin:6px auto}
+  .chief{background:var(--vermilion);max-width:440px;margin:0 auto}
+  .chief .name{font-family:'Noto Serif JP',serif;font-weight:700;font-size:1.18rem}
+  .chief .role{font-size:.78rem;color:#F6D9D4;margin-top:2px}
+  .gate{display:flex;align-items:center;gap:7px;justify-content:center;font-size:.8rem;color:var(--jade);font-weight:700;margin:12px auto}
+  .gate .dot{width:12px;height:12px;border-radius:50%;background:var(--jade)}
+  .depts{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .dept{flex:1 1 220px;min-width:200px;max-width:300px}
+  .dept .box{background:var(--gold);color:#fff;border-radius:13px;padding:12px 14px;text-align:center}
+  .dept .box .name{font-family:'Noto Serif JP',serif;font-weight:700}
+  .dept .box .role{font-size:.74rem;color:#FBF1D6;margin-top:2px}
+  .subs{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .sub{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:9px 12px 9px 14px;font-size:.86rem;text-align:center;position:relative}
+  .sub.gated{border-color:var(--jade)}
+  .sub.gated::before{content:"●";color:var(--jade);position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:.6rem}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:28px;font-size:.8rem;color:var(--soft)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend .d{width:12px;height:12px;border-radius:50%;display:inline-block}
+  .caption{text-align:center;font-size:.8rem;color:var(--soft);margin-top:14px}
+  .foot{text-align:center;font-size:.76rem;color:var(--soft);margin-top:28px;letter-spacing:.04em}
+  .creed{margin-top:30px;border-top:3px double var(--ink);padding-top:20px}
+  .creed-title{text-align:center;font-family:'Noto Serif JP',serif;font-weight:700;font-size:1.05rem;color:var(--vermilion);margin-bottom:14px;letter-spacing:.04em}
+  .creed-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .creed-cell{background:var(--card);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 16px}
+  .creed-cell .ct{font-size:.74rem;font-weight:800;color:var(--gold);letter-spacing:.06em;margin-bottom:3px}
+  .creed-cell .cb{font-family:'Noto Serif JP',serif;font-size:.95rem;color:var(--ink);line-height:1.65}
+  .creed-note{text-align:center;font-size:.8rem;color:var(--soft);margin-top:14px}
+  @media(max-width:560px){.creed-grid{grid-template-columns:1fr}}
+  @media print{@page{size:A4 landscape;margin:8mm}body{padding:0}.wrap{max-width:none}
+    .head{margin-bottom:12px;padding-bottom:10px}.conn{height:14px}.gate{margin:7px auto}.layer-label{margin-bottom:4px}.depts{margin-top:4px}.creed{margin-top:16px;padding-top:12px}.legend{margin-top:16px}.foot{margin-top:14px}}
+</style></head>
+<body><div class="wrap">
+  <div class="head">
+    <div class="eyebrow">AIエージェント組織図</div>
+    <h1>株式会社SEED／株式会社ARCS</h1>
+    <div class="meta">社長：山本 史朗　／　担当：山本 史朗（社長本人）</div>
+  </div>
+  <div class="layer-label">第0層・経営者（人間）</div>
+  <div class="node owner"><div class="name">山本 史朗</div><div class="role">最終判断・承認・ゴール設定</div></div>
+  <div class="gate"><span class="dot"></span>あなたが承認・指示する接点</div>
+  <div class="conn"></div>
+  <div class="layer-label">第1層・統括AI秘書（あなたの分身）</div>
+  <div class="node chief"><div class="name">五郎</div><div class="role">指示を受け、各部署へ振り分ける司令塔</div></div>
+  <div class="conn"></div>
+  <div class="layer-label">第2層・部署のAI秘書　／　第3層・サブエージェント</div>
+  <div class="depts">
+    <div class="dept">
+      <div class="box"><div class="name">ネットショップ秘書</div><div class="role">SEED EC事業の管理・運営</div></div>
+      <div class="subs">
+        <div class="sub">出荷サブエージェント</div>
+        <div class="sub">検品サブエージェント</div>
+        <div class="sub gated">発注サブエージェント</div>
+        <div class="sub">問い合わせ対応サブエージェント</div>
+      </div>
+    </div>
+    <div class="dept">
+      <div class="box"><div class="name">ペットショップ秘書</div><div class="role">SEED 店舗事業の管理・運営</div></div>
+      <div class="subs">
+        <div class="sub">出荷サブエージェント</div>
+        <div class="sub">納品サブエージェント</div>
+        <div class="sub">検品サブエージェント</div>
+        <div class="sub gated">発注サブエージェント</div>
+        <div class="sub gated">請求書作成サブエージェント</div>
+        <div class="sub">問い合わせ対応サブエージェント</div>
+      </div>
+    </div>
+    <div class="dept">
+      <div class="box"><div class="name">就労支援秘書</div><div class="role">ARCS 障がい者就労支援</div></div>
+      <div class="subs">
+        <div class="sub gated">請求書作成サブエージェント</div>
+        <div class="sub">問い合わせ対応サブエージェント</div>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <span><span class="d" style="background:#211B16"></span>経営者（人間）</span>
+    <span><span class="d" style="background:#C0392B"></span>統括AI秘書（分身）</span>
+    <span><span class="d" style="background:#B08524"></span>部署AI秘書</span>
+    <span><span class="d" style="background:#FBF8F2;border:1.5px solid #D8CFBF"></span>サブエージェント</span>
+    <span><span class="d" style="background:#3F7A5E"></span>人が承認する接点</span>
+  </div>
+  <div class="caption">緑の接点が「人間が承認・指示する」ポイント。ここを残すのが設計の肝です。</div>
+  <div class="creed">
+    <div class="creed-title">会社の憲法 — 想いとルール</div>
+    <div class="creed-grid">
+      <div class="creed-cell"><div class="ct">経営理念</div><div class="cb">みんなのために、地域の雇用を創る、こんなの欲しかったを叶える</div></div>
+      <div class="creed-cell"><div class="ct">大切な価値観</div><div class="cb">何が正しいのか、スピード</div></div>
+      <div class="creed-cell"><div class="ct">行きたい方向</div><div class="cb">グループ売上5億、利用者の就職先を作る</div></div>
+      <div class="creed-cell"><div class="ct">やらないこと</div><div class="cb">嘘をつかない、隠蔽しない、確認しない</div></div>
+    </div>
+    <div class="creed-note">この理念を、すべてのAIエージェントが受け継ぎます。</div>
+  </div>
+  <div class="foot">TSUNAGARU AI LABO ／ AIエージェント組織化 体験講座 2026-06-23</div>
+</div></body></html>
