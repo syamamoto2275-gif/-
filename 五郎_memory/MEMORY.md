@@ -11,3 +11,4 @@
 - [落合裕子さん](person_ochiai_yuko.md) — 直属の統括責任者・20年来の戦友。3部門を束ねる。専属AI秘書を新設予定（名前は本人が決定）
 - [手順書は詳しく丁寧に](feedback_detailed_manuals.md) — 説明資料は「より詳しく・細かく・分かりやすく」が会社のルール
 - [祖母の逝去](user_grandmother_passing.md) — 2026年6月25日逝去・同日葬儀。配慮を要する
+- [ルール0：作ったら即push](feedback_always_push.md) — 作成/変更したら即GitHubへpush。2台の五郎の唯一の同期手段
