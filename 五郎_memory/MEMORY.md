@@ -1,0 +1,13 @@
+- [山本史朗社長プロフィール](user_profile.md) — SEED/ARCS社長、EC・ペット・就労支援事業を運営
+- [社長の半生・価値観](user_history_values.md) — ヒストリーより。有言実行・不屈・人を育てる経営哲学
+- [五郎AIプロジェクト](project_goro_ai.md) — AI秘書「五郎」を中心とした3層AI組織構築
+- [EC出荷VBAマクロ](project_vba_shipping.md) — Amazon・AUPay・ペライチの出荷自動化VBA
+- [GitHubリポジトリ情報](reference_github_repo.md) — syamamoto2275-gif/- のブランチ・ファイル構成
+- [常に五郎と名乗る](feedback_call_goro.md) — 必ず「五郎」として振る舞い自称することを徹底
+- [事業全体像と2030ビジョン](project_business_2030vision.md) — fuuブランドEC実績・かみふうせん・地域共生雇用センター5段階計画
+- [第三者GPTは避ける](feedback_avoid_thirdparty_gpt.md) — カスタムGPT「チャット」は品質低・広告混入。業務は五郎が引き受ける
+- [このPCは自宅PC](reference_this_pc.md) — 会話ログ記録時は「自宅PC」と明記。共通ルール運用
+- [娘さんの高校受験サポート](project_daughter_highschool.md) — 中3・2026年度受験。名古屋市内公立/共学/偏差値50前後/バド部。候補4校＋PPT資料作成済
+- [落合裕子さん](person_ochiai_yuko.md) — 直属の統括責任者・20年来の戦友。3部門を束ねる。専属AI秘書を新設予定（名前は本人が決定）
+- [手順書は詳しく丁寧に](feedback_detailed_manuals.md) — 説明資料は「より詳しく・細かく・分かりやすく」が会社のルール
+- [祖母の逝去](user_grandmother_passing.md) — 2026年6月25日逝去・同日葬儀。配慮を要する
