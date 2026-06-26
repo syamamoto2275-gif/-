@@ -37,5 +37,6 @@
 - `Amazon_Module_マスター.bas` / `Amazon_Module_衣類判定.bas` — Amazon出荷自動化VBA
 - `Wowma_Module_マスター.bas` — AUPay Market出荷自動化VBA
 - `ペライチ_Module_マスター.bas` — ペライチ出荷自動化VBA
+- `楽天_Module_マスター.bas` / `楽天_Module_衣類判定.bas` — 楽天fuu出荷自動化VBA（実行1/2/3ボタン構成）
 - `Amazon_適用ガイド.md` — Amazon VBAマクロの適用手順
 - `AI組織図_SEED_ARCS.html` — AI組織図（ビジュアル版）
