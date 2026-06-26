@@ -40,3 +40,4 @@
 - `楽天_Module_マスター.bas` / `楽天_Module_衣類判定.bas` — 楽天fuu出荷自動化VBA（実行1/2/3ボタン構成）
 - `Amazon_適用ガイド.md` — Amazon VBAマクロの適用手順
 - `AI組織図_SEED_ARCS.html` — AI組織図（ビジュアル版）
+- `.claude/skills/出荷マクロ作成/` — 出荷マクロ作成スキル（4チャネル共通の型・VBA抽出手順を体系化）
