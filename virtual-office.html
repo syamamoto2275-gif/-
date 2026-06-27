@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEED / ARCS バーチャルオフィス</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#F0EEE6; --surface-0:#F0EEE6; --surface-1:#F7F6F1; --surface-2:#FFFFFF;
+  --text-primary:#1F1E1C; --text-secondary:#5F5E5A; --text-muted:#8B8A84; --text-accent:#185FA5;
+  --border:#E2E0D7; --border-strong:#CFCDC3; --border-accent:#85B7EB; --bg-accent:#E6F1FB; --radius:8px;
+  --font-sans:'Hiragino Kaku Gothic ProN','Yu Gothic UI','Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1E1D1B; --surface-0:#1E1D1B; --surface-1:#272624; --surface-2:#2F2E2B;
+    --text-primary:#ECEBE7; --text-secondary:#B4B2A9; --text-muted:#88877F; --text-accent:#85B7EB;
+    --border:#3A3935; --border-strong:#4A4944; --border-accent:#185FA5; --bg-accent:#0C447C;
+  }
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text-primary);font-family:var(--font-sans);display:flex;justify-content:center;padding:24px 12px;}
+.wrap{width:100%;max-width:720px;}
+.ti{font-style:normal;}
+
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes wkA{0%{transform:translate(0,0)}50%{transform:translate(0,180px)}100%{transform:translate(0,0)}}
+@keyframes wkB{0%{transform:translate(0,0)}50%{transform:translate(0,-170px)}100%{transform:translate(0,0)}}
+@keyframes wkC{0%{transform:translate(0,0)}50%{transform:translate(80px,0)}100%{transform:translate(0,0)}}
+@keyframes stepy{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.island{position:absolute;background:#C9CDD6;border:2px solid #AEB3BD;border-radius:9px;}
+.zl{position:absolute;font-size:11px;color:#5F5E5A;background:#F1EFE8;border:0.5px solid #D3D1C7;border-radius:999px;padding:1px 9px;z-index:4;white-space:nowrap;}
+.dk{position:absolute;width:64px;height:37px;background:#DDE0E6;border:1px solid #B0B4BC;border-radius:3px;}
+.mn{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:28px;height:15px;background:#2B2F3A;border-radius:2px;}
+.scn{position:absolute;inset:1px;border-radius:1px;}
+.cha{position:absolute;width:12px;height:13px;background:#3C414C;border-radius:50% 50% 35% 35%;}
+.pl{position:absolute;width:20px;height:20px;border-radius:50% 50% 42% 42%;background:#3B6D11;}
+.pl::after{content:"";position:absolute;left:6px;bottom:-3px;width:8px;height:5px;background:#A8814F;border-radius:0 0 2px 2px;}
+.per{position:absolute;cursor:pointer;z-index:5;display:flex;flex-direction:column;align-items:center;}
+.tag{font-size:9px;color:#fff;background:#2B2F3A;border-radius:6px;padding:1px 6px;white-space:nowrap;display:flex;align-items:center;gap:3px;margin-bottom:2px;}
+.av{position:relative;width:22px;height:22px;}
+.face{position:absolute;inset:0;border-radius:50%;background:#F7CBB0;}
+.ey{position:absolute;top:10px;width:4px;height:5px;border-radius:50%;background:#2C2C2A;}
+.ey::after{content:"";position:absolute;top:1px;right:0.5px;width:1.5px;height:1.5px;border-radius:50%;background:#fff;}
+.bl{position:absolute;top:14px;width:3px;height:2px;border-radius:50%;background:#F0997B;opacity:.6;}
+.mo{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:3px;height:2px;background:#C0654A;border-radius:0 0 3px 3px;}
+.hr{position:absolute;top:-2px;left:-1px;width:24px;height:11px;border-radius:12px 12px 8px 8px;}
+.hbk{position:absolute;left:-3px;top:2px;width:28px;height:24px;border-radius:14px 14px 12px 12px;}
+.bd{width:20px;height:11px;border-radius:7px 7px 3px 3px;margin-top:-1px;}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#2B2F3A;color:#fff;font-size:13px;padding:10px 16px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:99;max-width:90%;}
+#toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+    <i class="ti ti-device-gamepad-2" style="font-size:20px; color:var(--text-accent);" aria-hidden="true"></i>
+    <span style="font-size:17px; font-weight:500;">SEED / ARCS バーチャルオフィス</span>
+    <span style="margin-left:auto; font-size:12px; color:var(--text-secondary); display:flex; align-items:center; gap:5px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#1D9E75;display:inline-block;animation:blink 2s infinite;"></span>4部署 稼働中
+    </span>
+  </div>
+
+  <div style="position:relative; width:100%; height:660px; background:#E7DBC6; border:0.5px solid var(--border); border-radius:12px; overflow:hidden;">
+
+    <div class="island" style="left:8px; top:20px; width:222px; height:212px;">
+      <span class="zl" style="left:8px; top:6px;">EC事業部</span>
+      <div class="dk" style="left:16px; top:42px;"><div class="mn"><div class="scn" style="background:#D4537E;"></div></div></div>
+      <div class="dk" style="left:112px; top:42px;"><div class="mn"><div class="scn" style="background:#EF9F27;"></div></div></div>
+      <div class="dk" style="left:16px; top:130px;"><div class="mn"><div class="scn" style="background:#378ADD;"></div></div></div>
+      <div class="dk" style="left:112px; top:130px;"><div class="mn"><div class="scn" style="background:#1D9E75;"></div></div></div>
+      <div class="cha" style="left:42px; top:84px;"></div><div class="cha" style="left:138px; top:84px;"></div><div class="cha" style="left:42px; top:172px;"></div><div class="cha" style="left:138px; top:172px;"></div>
+      <span class="pl" style="left:192px; top:182px;"></span>
+      <div class="per" style="left:28px; top:48px;" onclick="goro('EC事業部のAI秘書')">
+        <span class="tag"><i class="ti ti-shopping-cart" style="font-size:9px;" aria-hidden="true"></i>EC秘書 <span style="color:#F0997B;">AI</span></span>
+        <span class="av"><span class="face"></span><span class="ey" style="left:4px;"></span><span class="ey" style="right:4px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#2C2C2A;"></span></span><span class="bd" style="background:#993C1D;"></span>
+      </div>
+    </div>
+
+    <div class="island" style="right:8px; top:20px; width:222px; height:212px;">
+      <span class="zl" style="right:8px; top:6px;">ペット事業部</span>
+      <div class="dk" style="left:46px; top:42px;"><div class="mn"><div class="scn" style="background:#7F77DD;"></div></div></div>
+      <div class="dk" style="left:142px; top:42px;"><div class="mn"><div class="scn" style="background:#1D9E75;"></div></div></div>
+      <div class="dk" style="left:46px; top:130px;"><div class="mn"><div class="scn" style="background:#EF9F27;"></div></div></div>
+      <div class="dk" style="left:142px; top:130px;"><div class="mn"><div class="scn" style="background:#D4537E;"></div></div></div>
+      <div class="cha" style="left:72px; top:84px;"></div><div class="cha" style="left:168px; top:84px;"></div><div class="cha" style="left:72px; top:172px;"></div><div class="cha" style="left:168px; top:172px;"></div>
+      <span class="pl" style="left:10px; top:182px;"></span>
+      <div class="per" style="left:58px; top:48px;" onclick="goro('ペット事業部のAI秘書')">
+        <span class="tag"><i class="ti ti-paw" style="font-size:9px;" aria-hidden="true"></i>ペット秘書 <span style="color:#ED93B1;">AI</span></span>
+        <span class="av"><span class="hbk" style="background:#3a2a1e;"></span><span class="face"></span><span class="ey" style="left:4px;"></span><span class="ey" style="right:4px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#3a2a1e;"></span></span><span class="bd" style="background:#D4537E;"></span>
+      </div>
+    </div>
+
+    <div class="island" style="left:8px; top:448px; width:222px; height:212px;">
+      <span class="zl" style="left:8px; top:6px;">経理総務部</span>
+      <div class="dk" style="left:16px; top:42px;"><div class="mn"><div class="scn" style="background:#EF9F27;"></div></div></div>
+      <div class="dk" style="left:112px; top:42px;"><div class="mn"><div class="scn" style="background:#85B7EB;"></div></div></div>
+      <div class="dk" style="left:16px; top:130px;"><div class="mn"><div class="scn" style="background:#1D9E75;"></div></div></div>
+      <div class="dk" style="left:112px; top:130px;"><div class="mn"><div class="scn" style="background:#D4537E;"></div></div></div>
+      <div class="cha" style="left:42px; top:84px;"></div><div class="cha" style="left:138px; top:84px;"></div><div class="cha" style="left:42px; top:172px;"></div><div class="cha" style="left:138px; top:172px;"></div>
+      <span class="pl" style="left:192px; top:182px;"></span>
+      <div class="per" style="left:28px; top:48px;" onclick="goro('経理総務部のAI秘書')">
+        <span class="tag"><i class="ti ti-calculator" style="font-size:9px;" aria-hidden="true"></i>経理総務秘書 <span style="color:#FAC775;">AI</span></span>
+        <span class="av"><span class="face"></span><span class="ey" style="left:4px;"></span><span class="ey" style="right:4px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#412402;"></span></span><span class="bd" style="background:#854F0B;"></span>
+      </div>
+    </div>
+
+    <div class="island" style="right:8px; top:448px; width:222px; height:212px;">
+      <span class="zl" style="right:8px; top:6px;">就労支援事業部</span>
+      <div class="dk" style="left:46px; top:42px;"><div class="mn"><div class="scn" style="background:#7F77DD;"></div></div></div>
+      <div class="dk" style="left:142px; top:42px;"><div class="mn"><div class="scn" style="background:#1D9E75;"></div></div></div>
+      <div class="dk" style="left:46px; top:130px;"><div class="mn"><div class="scn" style="background:#EF9F27;"></div></div></div>
+      <div class="dk" style="left:142px; top:130px;"><div class="mn"><div class="scn" style="background:#85B7EB;"></div></div></div>
+      <div class="cha" style="left:72px; top:84px;"></div><div class="cha" style="left:168px; top:84px;"></div><div class="cha" style="left:72px; top:172px;"></div><div class="cha" style="left:168px; top:172px;"></div>
+      <span class="pl" style="left:10px; top:182px;"></span>
+      <div class="per" style="left:58px; top:48px;" onclick="goro('就労支援事業部のAI秘書')">
+        <span class="tag"><i class="ti ti-heart-handshake" style="font-size:9px;" aria-hidden="true"></i>就労支援秘書 <span style="color:#AFA9EC;">AI</span></span>
+        <span class="av"><span class="face"></span><span class="ey" style="left:4px;"></span><span class="ey" style="right:4px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#26215C;"></span></span><span class="bd" style="background:#3C3489;"></span>
+      </div>
+    </div>
+
+    <div class="island" style="left:50%; top:150px; transform:translateX(-50%); width:226px; height:188px; background:#D8D0EF; border-color:#B7ABDB;">
+      <span class="zl" style="left:8px; top:6px; color:#3C3489; background:#EEEDFE; border-color:#CECBF6;">社長室</span>
+      <div class="dk" style="left:14px; top:46px; width:104px; height:60px;"><div class="mn" style="width:42px; height:22px;"><div class="scn" style="background:#378ADD;"></div></div></div>
+      <div class="dk" style="left:146px; top:54px;"><div class="mn"><div class="scn" style="background:#1D9E75;"></div></div></div>
+      <div class="cha" style="left:58px; top:114px;"></div><div class="cha" style="left:172px; top:98px;"></div>
+      <span class="pl" style="left:196px; top:8px;"></span>
+      <div class="per" style="left:40px; top:54px;" onclick="goro('社長')">
+        <span class="tag" style="background:#0F6E56;"><span style="width:5px;height:5px;border-radius:50%;background:#9FE1CB;display:inline-block;"></span>社長 (You)</span>
+        <span class="av" style="width:24px;height:24px;"><span class="face"></span><span class="ey" style="left:5px;"></span><span class="ey" style="right:5px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#2C2C2A; height:7px; top:-1px; width:26px;"></span></span><span class="bd" style="background:#0C447C; width:22px;"></span>
+      </div>
+      <div class="per" style="left:150px; top:60px;" onclick="goro('五郎')">
+        <span class="tag">五郎 <span style="color:#85B7EB;">AI</span></span>
+        <span class="av"><span class="face"></span><span class="ey" style="left:4px;"></span><span class="ey" style="right:4px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#3a2a1e;"></span></span><span class="bd" style="background:#185FA5;"></span>
+      </div>
+    </div>
+
+    <div class="island" style="left:50%; top:360px; transform:translateX(-50%); width:226px; height:188px; background:#D6ECE2; border-color:#A5D6C4;">
+      <span class="zl" style="left:8px; top:6px; color:#0F6E56; background:#E1F5EE; border-color:#9FE1CB;">統括ルーム</span>
+      <div class="dk" style="left:14px; top:48px; width:94px; height:54px;"><div class="mn" style="width:36px; height:19px;"><div class="scn" style="background:#D4537E;"></div></div></div>
+      <div class="dk" style="left:140px; top:54px;"><div class="mn"><div class="scn" style="background:#85B7EB;"></div></div></div>
+      <div class="cha" style="left:52px; top:110px;"></div><div class="cha" style="left:166px; top:98px;"></div>
+      <span class="pl" style="left:196px; top:8px;"></span>
+      <div class="per" style="left:38px; top:56px;" onclick="goro('落合さん')">
+        <span class="tag" style="background:#993556;"><span style="width:5px;height:5px;border-radius:50%;background:#F4C0D1;display:inline-block;"></span>落合さん</span>
+        <span class="av" style="width:24px;height:24px;"><span class="hbk" style="background:#3a2419; width:30px; left:-3px; height:28px;"></span><span class="face"></span><span class="ey" style="left:5px;"></span><span class="ey" style="right:5px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#3a2419; width:26px;"></span></span><span class="bd" style="background:#993556; width:22px;"></span>
+      </div>
+      <div class="per" style="left:144px; top:60px;" onclick="goro('クララ')">
+        <span class="tag">クララ <span style="color:#5DCAA5;">AI</span></span>
+        <span class="av"><span class="hbk" style="background:#6b4a22;"></span><span class="face"></span><span class="ey" style="left:4px;"></span><span class="ey" style="right:4px;"></span><span class="bl" style="left:2px;"></span><span class="bl" style="right:2px;"></span><span class="mo"></span><span class="hr" style="background:#6b4a22;"></span></span><span class="bd" style="background:#0F6E56;"></span>
+      </div>
+    </div>
+
+    <div style="position:absolute; left:244px; top:150px; animation:wkA 16s linear infinite; z-index:5;">
+      <div style="animation:stepy .5s ease-in-out infinite; display:flex; flex-direction:column; align-items:center;">
+        <span class="av" style="width:18px;height:18px;"><span class="face"></span><span class="ey" style="left:3px;top:8px;"></span><span class="ey" style="right:3px;top:8px;"></span><span class="hr" style="background:#5F5E5A; width:20px;"></span></span><span class="bd" style="background:#5F5E5A; width:17px;"></span>
+      </div>
+    </div>
+    <div style="position:absolute; right:244px; bottom:150px; animation:wkB 14s linear infinite; z-index:5;">
+      <div style="animation:stepy .45s ease-in-out infinite; display:flex; flex-direction:column; align-items:center;">
+        <span class="av" style="width:18px;height:18px;"><span class="hbk" style="background:#6b4a22; width:22px;"></span><span class="face"></span><span class="ey" style="left:3px;top:8px;"></span><span class="ey" style="right:3px;top:8px;"></span><span class="hr" style="background:#6b4a22; width:20px;"></span></span><span class="bd" style="background:#444441; width:17px;"></span>
+      </div>
+    </div>
+    <div style="position:absolute; left:50%; top:316px; animation:wkC 9s linear infinite; z-index:5;">
+      <div style="animation:stepy .4s ease-in-out infinite; display:flex; flex-direction:column; align-items:center;">
+        <span class="av" style="width:18px;height:18px;"><span class="face"></span><span class="ey" style="left:3px;top:8px;"></span><span class="ey" style="right:3px;top:8px;"></span><span class="hr" style="background:#412402; width:20px;"></span></span><span class="bd" style="background:#888780; width:17px;"></span>
+      </div>
+    </div>
+
+  </div>
+  <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-top:10px;">キャラクターをクリックで担当を選択　・　社員が部署間を歩き回ります</div>
+</div>
+
+<div id="toast"></div>
+<script>
+var _t;
+function goro(name){
+  var el=document.getElementById('toast');
+  el.textContent='「'+name+'」に指示できます（実データ・チャット連携は今後）';
+  el.classList.add('show');
+  clearTimeout(_t);
+  _t=setTimeout(function(){el.classList.remove('show');},2600);
+}
+</script>
+</body>
+</html>
