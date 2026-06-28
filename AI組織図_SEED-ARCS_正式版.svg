@@ -1,0 +1,99 @@
+<svg width="100%" viewBox="0 0 1330 750" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+<title id="t">SEED/ARCS AIエージェント組織図（正式版 2026-06-28）</title>
+<desc id="d">山本史朗社長の下、統括AI秘書「五郎」と人の統括「落合裕子」(専属AI秘書クララ)、4部署のAI秘書(ネットショップ/ペットショップ/就労支援/経理総務)と各サブエージェントからなるAIエージェント組織図。機密業務(発注・請求書作成・給料計算)は社長が最終承認。</desc>
+<style>
+ .ti{font-family:Cambria,'Yu Mincho',serif;font-weight:700;}
+ .ts{font-family:Calibri,'Yu Gothic UI','Meiryo',sans-serif;font-weight:600;}
+ .su{font-family:Calibri,'Yu Gothic UI','Meiryo',sans-serif;font-weight:400;}
+ .cap{font-family:Calibri,'Yu Gothic UI','Meiryo',sans-serif;fill:#574E44;}
+</style>
+<rect x="0" y="0" width="1330" height="750" fill="#ffffff"/>
+<text x="50" y="40" class="ti" font-size="30" fill="#211B16">AIエージェント組織図（正式版）</text>
+<text x="1280" y="40" class="su" font-size="15" fill="#574E44" text-anchor="end">2026-06-28 確定</text>
+<text x="417" y="178" class="su" font-size="12.5" fill="#574E44" text-anchor="middle" font-style="italic">並列統括（人 / AI）</text>
+<line x1="665" y1="105" x2="665" y2="125" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="180" y1="125" x2="665" y2="125" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="180" y1="125" x2="180" y2="145" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="665" y1="125" x2="665" y2="142.5" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="180" y1="195" x2="180" y2="210" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="300" y1="170" x2="535" y2="170" stroke="#3F7A5E" stroke-width="1.5" stroke-dasharray="6 5"/>
+<line x1="665" y1="197.5" x2="665" y2="275" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="195" y1="275" x2="1140" y2="275" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="195" y1="275" x2="195" y2="305" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="195" y1="359.99999999999994" x2="195" y2="561" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="509.99999999999994" y1="275" x2="509.99999999999994" y2="305" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="509.99999999999994" y1="359.99999999999994" x2="509.99999999999994" y2="665" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="825" y1="275" x2="825" y2="305" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="825" y1="359.99999999999994" x2="825" y2="509" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="1140" y1="275" x2="1140" y2="305" stroke="#C9C0B0" stroke-width="1.75"/>
+<line x1="1140" y1="359.99999999999994" x2="1140" y2="561" stroke="#C9C0B0" stroke-width="1.75"/>
+<rect x="535" y="55.00000000000001" width="260" height="50" rx="9" fill="#211B16" stroke="#211B16" stroke-width="1.75"/>
+<text x="665" y="77" class="ti" font-size="18.8" fill="#FFFFFF" text-anchor="middle">山本 史朗</text>
+<text x="665" y="95" class="su" font-size="11.8" fill="#C9BFAE" text-anchor="middle">経営者・最終承認</text>
+<rect x="535" y="142.5" width="260" height="55.00000000000001" rx="9" fill="#C0392B" stroke="#C0392B" stroke-width="1.75"/>
+<text x="665" y="167" class="ti" font-size="18.8" fill="#FFFFFF" text-anchor="middle">五郎</text>
+<text x="665" y="185" class="su" font-size="11.8" fill="#F6D9D4" text-anchor="middle">統括AI秘書・司令塔</text>
+<rect x="60" y="145" width="240" height="50" rx="9" fill="#574E44" stroke="#574E44" stroke-width="1.75"/>
+<text x="180" y="167" class="ti" font-size="18.8" fill="#FFFFFF" text-anchor="middle">落合 裕子</text>
+<text x="180" y="185" class="su" font-size="11.8" fill="#E5DED4" text-anchor="middle">統括（人）・4部署を統括</text>
+<rect x="60" y="210" width="240" height="42" rx="9" fill="#F8F5EF" stroke="#574E44" stroke-width="1.75"/>
+<text x="180" y="228" class="ti" font-size="18.8" fill="#211B16" text-anchor="middle">クララ</text>
+<text x="180" y="246" class="su" font-size="11.8" fill="#574E44" text-anchor="middle">落合さん専属AI秘書</text>
+<rect x="59.999999999999986" y="305" width="270" height="55.00000000000001" rx="9" fill="#B08524" stroke="#B08524" stroke-width="1.75"/>
+<text x="195" y="329.5" class="ti" font-size="17.4" fill="#FFFFFF" text-anchor="middle">ネットショップ秘書</text>
+<text x="195" y="347.5" class="su" font-size="11.8" fill="#FBF1D6" text-anchor="middle">SEED EC事業</text>
+<rect x="82.5" y="384.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="195" y="409.99999999999994" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">出荷</text>
+<rect x="82.5" y="437" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="195" y="462" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">検品</text>
+<rect x="82.5" y="488.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#3F7A5E" stroke-width="1.75"/>
+<text x="195" y="514" class="su" font-size="13.9" fill="#211B16" text-anchor="middle"><tspan fill="#3F7A5E" font-weight="700">● </tspan>発注</text>
+<rect x="82.5" y="540.9999999999999" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="195" y="565.9999999999999" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">問い合わせ対応</text>
+<rect x="374.99999999999994" y="305" width="270" height="55.00000000000001" rx="9" fill="#B08524" stroke="#B08524" stroke-width="1.75"/>
+<text x="509.99999999999994" y="329.5" class="ti" font-size="17.4" fill="#FFFFFF" text-anchor="middle">ペットショップ秘書</text>
+<text x="509.99999999999994" y="347.5" class="su" font-size="11.8" fill="#FBF1D6" text-anchor="middle">SEED 店舗事業</text>
+<rect x="397.49999999999994" y="384.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="509.99999999999994" y="409.99999999999994" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">出荷</text>
+<rect x="397.49999999999994" y="437" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="509.99999999999994" y="462" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">納品</text>
+<rect x="397.49999999999994" y="488.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="509.99999999999994" y="514" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">検品</text>
+<rect x="397.49999999999994" y="540.9999999999999" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#3F7A5E" stroke-width="1.75"/>
+<text x="509.99999999999994" y="565.9999999999999" class="su" font-size="13.9" fill="#211B16" text-anchor="middle"><tspan fill="#3F7A5E" font-weight="700">● </tspan>発注</text>
+<rect x="397.49999999999994" y="593" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#3F7A5E" stroke-width="1.75"/>
+<text x="509.99999999999994" y="618" class="su" font-size="13.9" fill="#211B16" text-anchor="middle"><tspan fill="#3F7A5E" font-weight="700">● </tspan>請求書作成</text>
+<rect x="397.49999999999994" y="645" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="509.99999999999994" y="670" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">問い合わせ対応</text>
+<rect x="690" y="305" width="270" height="55.00000000000001" rx="9" fill="#B08524" stroke="#B08524" stroke-width="1.75"/>
+<text x="825" y="329.5" class="ti" font-size="17.4" fill="#FFFFFF" text-anchor="middle">就労支援秘書</text>
+<text x="825" y="347.5" class="su" font-size="11.8" fill="#FBF1D6" text-anchor="middle">ARCS 就労支援</text>
+<rect x="712.5" y="384.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#3F7A5E" stroke-width="1.75"/>
+<text x="825" y="409.99999999999994" class="su" font-size="13.9" fill="#211B16" text-anchor="middle"><tspan fill="#3F7A5E" font-weight="700">● </tspan>請求書作成</text>
+<rect x="712.5" y="437" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="825" y="462" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">施設必要書類作成</text>
+<rect x="712.5" y="488.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="825" y="514" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">問い合わせ対応</text>
+<rect x="1005.0000000000001" y="305" width="270" height="55.00000000000001" rx="9" fill="#B08524" stroke="#B08524" stroke-width="1.75"/>
+<text x="1140" y="329.5" class="ti" font-size="17.4" fill="#FFFFFF" text-anchor="middle">経理総務秘書</text>
+<text x="1140" y="347.5" class="su" font-size="11.8" fill="#FBF1D6" text-anchor="middle">SEED・ARCS 経理総務</text>
+<rect x="1027.5" y="384.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#3F7A5E" stroke-width="1.75"/>
+<text x="1140" y="409.99999999999994" class="su" font-size="13.9" fill="#211B16" text-anchor="middle"><tspan fill="#3F7A5E" font-weight="700">● </tspan>給料計算</text>
+<rect x="1027.5" y="437" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#3F7A5E" stroke-width="1.75"/>
+<text x="1140" y="462" class="su" font-size="13.9" fill="#211B16" text-anchor="middle"><tspan fill="#3F7A5E" font-weight="700">● </tspan>請求書作成</text>
+<rect x="1027.5" y="488.99999999999994" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="1140" y="514" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">書類作成</text>
+<rect x="1027.5" y="540.9999999999999" width="225" height="40" rx="9" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1.75"/>
+<text x="1140" y="565.9999999999999" class="su" font-size="13.9" fill="#211B16" text-anchor="middle">問い合わせ対応</text>
+<rect x="50" y="712" width="22" height="15" rx="3" fill="#211B16" stroke="#211B16" stroke-width="1"/>
+<text x="78" y="724" class="cap" font-size="13">経営者(人)</text>
+<rect x="180" y="712" width="22" height="15" rx="3" fill="#574E44" stroke="#574E44" stroke-width="1"/>
+<text x="208" y="724" class="cap" font-size="13">統括(人)</text>
+<rect x="297" y="712" width="22" height="15" rx="3" fill="#C0392B" stroke="#C0392B" stroke-width="1"/>
+<text x="325" y="724" class="cap" font-size="13">統括AI(五郎)</text>
+<rect x="453" y="712" width="22" height="15" rx="3" fill="#B08524" stroke="#B08524" stroke-width="1"/>
+<text x="481" y="724" class="cap" font-size="13">部署AI秘書</text>
+<rect x="583" y="712" width="22" height="15" rx="3" fill="#F8F5EF" stroke="#D8CFBF" stroke-width="1"/>
+<text x="611" y="724" class="cap" font-size="13">サブエージェント</text>
+<text x="1280" y="724" class="cap" font-size="13" text-anchor="end"><tspan fill="#3F7A5E" font-weight="700">● </tspan>＝ 機密業務（社長が最終承認する接点）</text>
+</svg>
