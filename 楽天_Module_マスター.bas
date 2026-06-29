@@ -63,6 +63,11 @@ Sub 実行2_出荷データ作成一式()
     手順5_佐川発行用_E飛伝アップデータ
 
     Application.ScreenUpdating = True
+
+    ' (楽天-1) ペットクリック物出しシートを表示する
+    Sheets("ペットクリック物出し").Select
+    Range("A1").Select
+
     MsgBox "出荷データの作成が完了しました。" & vbCrLf & vbCrLf & _
            "クリックポスト・佐川それぞれの発行用データができています。" & vbCrLf & _
            "各システムでラベルを発行し、追跡番号レポートを貼り付けたら、" & vbCrLf & _
@@ -329,6 +334,16 @@ Sub 手順2_物出しリスト作成()
     End With
     Range("$A$1:$A$600").AutoFilter Field:=1, Criteria1:=Array( _
         "ペットクリック1通", "ペットクリック複数"), Operator:=xlFilterValues
+    ' (楽天-2) フィルター済みのペットクリック物出しを商品名(W列)で並び替える
+    ActiveWorkbook.Worksheets("ペットクリック物出し").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("ペットクリック物出し").Sort.SortFields.Add _
+        Key:=Range("W1"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+    With ActiveWorkbook.Worksheets("ペットクリック物出し").Sort
+        .SetRange Range("A1:AA600")
+        .Header = xlYes
+        .Orientation = xlTopToBottom
+        .Apply
+    End With
     Columns("P:P").Select
     Selection.EntireColumn.Hidden = True
     Columns("J:AA").Select
@@ -487,6 +502,9 @@ Sub 手順5_佐川発行用_E飛伝アップデータ()
     Sheets("佐川発行用_E飛伝アップデータ").Select
     Range("Z2:Z200").Select
     ActiveSheet.Paste
+
+    ' (楽天-3) お届け先住所(E:G列)は太字にしない
+    Sheets("佐川発行用_E飛伝アップデータ").Range("E2:G200").Font.Bold = False
 
     Sheets("佐川発行用_E飛伝アップデータ").Select
     Sheets("佐川発行用_E飛伝アップデータ").Copy

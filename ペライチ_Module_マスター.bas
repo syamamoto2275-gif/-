@@ -475,17 +475,24 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
         If sh.Name Like "納品書【*行目】" Then
             sh.Cells(5, 7).Value = ""   ' 注文番号
             sh.Cells(5, 10).Value = ""  ' 注文日
-            sh.Cells(11, 3).Value = ""  ' 顧客郵便番号
+            ' 顧客側はB列に集約（C列は使わない＝空にする）
+            sh.Cells(11, 2).Value = ""  ' 顧客郵便番号(B11)
+            sh.Cells(11, 3).Value = ""  ' C11は使わない
             sh.Cells(12, 2).Value = ""  ' 顧客住所1
             sh.Cells(13, 2).Value = ""  ' 顧客住所2
-            sh.Cells(14, 2).Value = " 様"  ' 顧客名リセット
-            sh.Cells(16, 3).Value = ""  ' 顧客TEL
-            sh.Cells(17, 3).Value = ""  ' 顧客Mail
-            sh.Cells(11, 8).Value = ""  ' お届け先郵便番号
+            sh.Cells(14, 2).Value = "様"  ' 顧客名リセット(B14)
+            sh.Cells(16, 2).Value = ""  ' 顧客TEL(B16)
+            sh.Cells(16, 3).Value = ""  ' C16は使わない
+            sh.Cells(17, 2).Value = ""  ' 顧客Mail(B17)
+            sh.Cells(17, 3).Value = ""  ' C17は使わない
+            ' お届け先側はG列に集約（H列は使わない＝空にする）
+            sh.Cells(11, 7).Value = ""  ' お届け先郵便番号(G11)
+            sh.Cells(11, 8).Value = ""  ' H11は使わない
             sh.Cells(12, 7).Value = ""  ' お届け先住所1
             sh.Cells(13, 7).Value = ""  ' お届け先住所2
-            sh.Cells(14, 7).Value = " 様"  ' お届け先名リセット
-            sh.Cells(16, 8).Value = ""  ' お届け先TEL
+            sh.Cells(14, 7).Value = "様"  ' お届け先名リセット(G14)
+            sh.Cells(16, 7).Value = ""  ' お届け先TEL(G16)
+            sh.Cells(16, 8).Value = ""  ' H16は使わない
             sh.Cells(19, 4).Value = ""  ' 総合計金額
             Dim r As Long
             For r = 22 To 31
@@ -539,27 +546,28 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
             Dim custName As String
             custName = Trim(wsGen.Cells(genRow, COL_CUST_LAST).Value) & _
                        Trim(wsGen.Cells(genRow, COL_CUST_FIRST).Value)
-            wsNob.Cells(11, 3).NumberFormat = "@"
-            wsNob.Cells(11, 3).Value = "〒" & CStr(wsGen.Cells(genRow, COL_CUST_POST).Value)
+            ' 顧客：郵便番号は先頭に「〒」、名前は末尾に「様」、TEL/Mailは接頭辞付き（すべてB列）
+            wsNob.Cells(11, 2).NumberFormat = "@"
+            wsNob.Cells(11, 2).Value = "〒" & CStr(wsGen.Cells(genRow, COL_CUST_POST).Value)
             wsNob.Cells(12, 2).Value = wsGen.Cells(genRow, COL_CUST_PREF).Value & _
                                         wsGen.Cells(genRow, COL_CUST_ADDR1).Value
             wsNob.Cells(13, 2).Value = wsGen.Cells(genRow, COL_CUST_ADDR2).Value
-            wsNob.Cells(14, 2).Value = custName & " 様"
-            wsNob.Cells(16, 3).NumberFormat = "@"
-            wsNob.Cells(16, 3).Value = CStr(wsGen.Cells(genRow, COL_CUST_TEL).Value)
-            wsNob.Cells(17, 3).NumberFormat = "@"
-            wsNob.Cells(17, 3).Value = CStr(wsGen.Cells(genRow, 34).Value)  ' AH=メール
+            wsNob.Cells(14, 2).Value = custName & "様"
+            wsNob.Cells(16, 2).NumberFormat = "@"
+            wsNob.Cells(16, 2).Value = "TEL：" & CStr(wsGen.Cells(genRow, COL_CUST_TEL).Value)
+            wsNob.Cells(17, 2).NumberFormat = "@"
+            wsNob.Cells(17, 2).Value = "Mail：" & CStr(wsGen.Cells(genRow, 34).Value)  ' AH=メール
             wsNob.Cells(34, 10).Value = wsGen.Cells(genRow, 10).Value  ' J=送料
         End If
 
-        ' お届け先情報（編集シートから）
-        wsNob.Cells(11, 8).NumberFormat = "@"
-        wsNob.Cells(11, 8).Value = "〒" & CStr(wsEdit.Cells(i, "E").Value)
+        ' お届け先情報（編集シートから）：郵便番号「〒」、名前「様」、TEL接頭辞付き（すべてG列）
+        wsNob.Cells(11, 7).NumberFormat = "@"
+        wsNob.Cells(11, 7).Value = "〒" & CStr(wsEdit.Cells(i, "E").Value)
         wsNob.Cells(12, 7).Value = wsEdit.Cells(i, "F").Value & wsEdit.Cells(i, "G").Value
         wsNob.Cells(13, 7).Value = wsEdit.Cells(i, "H").Value
-        wsNob.Cells(14, 7).Value = wsEdit.Cells(i, "D").Value & " 様"
-        wsNob.Cells(16, 8).NumberFormat = "@"
-        wsNob.Cells(16, 8).Value = CStr(wsEdit.Cells(i, "I").Value)
+        wsNob.Cells(14, 7).Value = wsEdit.Cells(i, "D").Value & "様"
+        wsNob.Cells(16, 7).NumberFormat = "@"
+        wsNob.Cells(16, 7).Value = "TEL：" & CStr(wsEdit.Cells(i, "I").Value)
 
         ' 商品情報（1行目）
         Dim itemName As String: itemName = wsEdit.Cells(i, "C").Value
