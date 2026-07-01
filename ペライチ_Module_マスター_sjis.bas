@@ -146,9 +146,27 @@ Sub 実行1_ペライチ_発送方法自動判定()
         Next j
 
         If Is衣類ペライチ(itemName) Then
-            ws.Cells(i, COL_SHIPMETHOD).Value = IIf(cnt > 1, "衣類クリック複数", "衣類クリック1通")
+            If cnt >= 7 Then
+                ws.Cells(i, COL_SHIPMETHOD).Value = "衣類佐川"
+            ElseIf cnt > 3 Then
+                ws.Cells(i, COL_SHIPMETHOD).Value = "衣類クリック複数"
+            Else
+                ws.Cells(i, COL_SHIPMETHOD).Value = "衣類クリック1通"
+            End If
         Else
-            ws.Cells(i, COL_SHIPMETHOD).Value = IIf(cnt > 1, "ペットクリック複数", "ペットクリック1通")
+            Dim isPetClick As Boolean
+            isPetClick = False
+            If InStr(itemName, "ごはん") > 0 Or InStr(itemName, "おやつ") > 0 Then
+                If InStr(itemName, "3kg") = 0 And InStr(itemName, "5kg") = 0 And InStr(itemName, "10kg") = 0 And _
+                   InStr(itemName, "3ｋｇ") = 0 And InStr(itemName, "5ｋｇ") = 0 And InStr(itemName, "10ｋｇ") = 0 Then
+                    isPetClick = True
+                End If
+            End If
+            If isPetClick Then
+                ws.Cells(i, COL_SHIPMETHOD).Value = IIf(cnt > 1, "ペットクリック複数", "ペットクリック1通")
+            Else
+                ws.Cells(i, COL_SHIPMETHOD).Value = "ペット佐川"
+            End If
         End If
 
         Skip1:
@@ -260,25 +278,24 @@ Sub 実行2_ペライチ_出荷CSV作成()
     Call シートクリア(wsIrui, 2)
     Call シートクリア(wsPetClickUpd, 2)
     Call シートクリア(wsIruiClickUpd, 2)
-    Call シートクリア(wsSagawaUpd, 4)  ' 佐川は1-3行目がヘッダー
 
-    ' 佐川シートのヘッダーを設定（なければ）
+    ' 佐川シートを作り直す：行1=見出し・行2以降=データ（説明文と空行は無し）(#4 社長指示 2026-07-01)
     If Not wsSagawaUpd Is Nothing Then
-        If Trim(wsSagawaUpd.Cells(1, 1).Value) = "" Then
-            wsSagawaUpd.Cells(1, 1).Value = "以下のようなフォーマットで、データを設定してください。"
-            wsSagawaUpd.Cells(3, 1).Value = "お届け先コード取得区分"
-            wsSagawaUpd.Cells(3, 2).Value = "お届け先コード"
-            wsSagawaUpd.Cells(3, 3).Value = "お届け先電話番号"
-            wsSagawaUpd.Cells(3, 4).Value = "お届け先郵便番号"
-            wsSagawaUpd.Cells(3, 5).Value = "お届け先住所１"
-            wsSagawaUpd.Cells(3, 6).Value = "お届け先住所２"
-            wsSagawaUpd.Cells(3, 7).Value = "お届け先住所３"
-            wsSagawaUpd.Cells(3, 8).Value = "お届け先名称１"
-            wsSagawaUpd.Cells(3, 9).Value = "お届け先名称２"
-            wsSagawaUpd.Cells(3, 25).Value = "品名１"
-            wsSagawaUpd.Cells(3, 52).Value = "指定シール１"
-            wsSagawaUpd.Cells(3, 53).Value = "指定シール２"
-        End If
+        Dim lrSg As Long
+        lrSg = wsSagawaUpd.Cells(wsSagawaUpd.Rows.Count, 1).End(xlUp).Row
+        If lrSg >= 1 Then wsSagawaUpd.Rows("1:" & lrSg).ClearContents
+        wsSagawaUpd.Cells(1, 1).Value = "お届け先コード取得区分"
+        wsSagawaUpd.Cells(1, 2).Value = "お届け先コード"
+        wsSagawaUpd.Cells(1, 3).Value = "お届け先電話番号"
+        wsSagawaUpd.Cells(1, 4).Value = "お届け先郵便番号"
+        wsSagawaUpd.Cells(1, 5).Value = "お届け先住所１"
+        wsSagawaUpd.Cells(1, 6).Value = "お届け先住所２"
+        wsSagawaUpd.Cells(1, 7).Value = "お届け先住所３"
+        wsSagawaUpd.Cells(1, 8).Value = "お届け先名称１"
+        wsSagawaUpd.Cells(1, 9).Value = "お届け先名称２"
+        wsSagawaUpd.Cells(1, 25).Value = "品名１"
+        wsSagawaUpd.Cells(1, 52).Value = "指定シール１"
+        wsSagawaUpd.Cells(1, 53).Value = "指定シール２"
     End If
 
     ' 書き込み行カウンター
@@ -287,7 +304,7 @@ Sub 実行2_ペライチ_出荷CSV作成()
     Dim rIR As Long: rIR = 2
     Dim rPCU As Long: rPCU = 2
     Dim rICU As Long: rICU = 2
-    Dim rSG As Long: rSG = 4
+    Dim rSG As Long: rSG = 2   ' 佐川データは行2から(#4)
 
     Dim c1 As Long, c2 As Long, c3 As Long, c4 As Long
 
@@ -439,6 +456,9 @@ Sub 実行2_ペライチ_出荷CSV作成()
     ' 納品書シートにデータを作成
     Call ペライチ_納品書作成(wsEdit, lastRow)
 
+    ' 実行2の後はペットクリック物出しシートを表示する(#3 社長指示 2026-07-01)
+    If Not wsPetClick Is Nothing Then wsPetClick.Activate
+
     MsgBox msg, vbInformation, "実行2 完了"
 End Sub
 
@@ -457,18 +477,27 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
         If sh.Name Like "納品書【*行目】" Then
             sh.Cells(5, 7).Value = ""   ' 注文番号
             sh.Cells(5, 10).Value = ""  ' 注文日
-            sh.Cells(11, 3).Value = ""  ' 顧客郵便番号
+            ' 顧客側はB列に集約（C列は使わない＝空にする）
+            sh.Cells(11, 2).Value = ""  ' 顧客郵便番号(B11)
+            sh.Cells(11, 3).Value = ""  ' C11は使わない
             sh.Cells(12, 2).Value = ""  ' 顧客住所1
             sh.Cells(13, 2).Value = ""  ' 顧客住所2
-            sh.Cells(14, 2).Value = " 様"  ' 顧客名リセット
-            sh.Cells(16, 3).Value = ""  ' 顧客TEL
-            sh.Cells(17, 3).Value = ""  ' 顧客Mail
-            sh.Cells(11, 8).Value = ""  ' お届け先郵便番号
+            sh.Cells(14, 2).Value = "様"  ' 顧客名リセット(B14)
+            sh.Cells(16, 2).Value = ""  ' 顧客TEL(B16)
+            sh.Cells(16, 3).Value = ""  ' C16は使わない
+            sh.Cells(17, 2).Value = ""  ' 顧客Mail(B17)
+            sh.Cells(17, 3).Value = ""  ' C17は使わない
+            ' お届け先側はG列に集約（H列は使わない＝空にする）
+            sh.Cells(11, 7).Value = ""  ' お届け先郵便番号(G11)
+            sh.Cells(11, 8).Value = ""  ' H11は使わない
             sh.Cells(12, 7).Value = ""  ' お届け先住所1
             sh.Cells(13, 7).Value = ""  ' お届け先住所2
-            sh.Cells(14, 7).Value = " 様"  ' お届け先名リセット
-            sh.Cells(16, 8).Value = ""  ' お届け先TEL
+            sh.Cells(14, 7).Value = "様"  ' お届け先名リセット(G14)
+            sh.Cells(16, 7).Value = ""  ' お届け先TEL(G16)
+            sh.Cells(16, 8).Value = ""  ' H16は使わない
+            sh.Cells(17, 7).Value = ""  ' お届け先Mail(G17)リセット(#7)
             sh.Cells(19, 4).Value = ""  ' 総合計金額
+            sh.Cells(22, 8).Value = ""  ' 単価(H22)…実行毎に入れ直すのでリセット(#1 社長指示 2026-07-01)
             Dim r As Long
             For r = 22 To 31
                 sh.Cells(r, 2).Value = ""   ' 商品名
@@ -477,6 +506,7 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
             Next r
             sh.Cells(34, 2).Value = ""  ' 備考
             sh.Cells(34, 10).Value = "" ' 送料
+            sh.Cells(37, 9).Value = ""  ' お支払い方法(I37)…外部リンクを使わず実データで入れ直す(#8)
         End If
     Next sh
 
@@ -521,36 +551,48 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
             Dim custName As String
             custName = Trim(wsGen.Cells(genRow, COL_CUST_LAST).Value) & _
                        Trim(wsGen.Cells(genRow, COL_CUST_FIRST).Value)
-            wsNob.Cells(11, 3).Value = wsGen.Cells(genRow, COL_CUST_POST).Value
+            ' 顧客：郵便番号は先頭に「〒」、名前は末尾に「様」、TEL/Mailは接頭辞付き（すべてB列）
+            wsNob.Cells(11, 2).NumberFormat = "@"
+            wsNob.Cells(11, 2).Value = "〒" & CStr(wsGen.Cells(genRow, COL_CUST_POST).Value)
             wsNob.Cells(12, 2).Value = wsGen.Cells(genRow, COL_CUST_PREF).Value & _
                                         wsGen.Cells(genRow, COL_CUST_ADDR1).Value
             wsNob.Cells(13, 2).Value = wsGen.Cells(genRow, COL_CUST_ADDR2).Value
-            wsNob.Cells(14, 2).Value = custName & " 様"
-            wsNob.Cells(16, 3).NumberFormat = "@"
-            wsNob.Cells(16, 3).Value = CStr(wsGen.Cells(genRow, COL_CUST_TEL).Value)
-            wsNob.Cells(17, 3).Value = wsGen.Cells(genRow, 34).Value  ' AH=メール
+            wsNob.Cells(14, 2).Value = custName & "様"
+            wsNob.Cells(16, 2).NumberFormat = "@"
+            wsNob.Cells(16, 2).Value = "TEL：" & CStr(wsGen.Cells(genRow, COL_CUST_TEL).Value)
+            wsNob.Cells(17, 2).NumberFormat = "@"
+            wsNob.Cells(17, 2).Value = "Mail：" & CStr(wsGen.Cells(genRow, 34).Value)  ' AH=メール
             wsNob.Cells(34, 10).Value = wsGen.Cells(genRow, 10).Value  ' J=送料
+            ' お支払い方法(I37)…元データV列=支払い方法を反映（外部リンクの代わり）(#8)
+            wsNob.Cells(37, 9).Value = wsGen.Cells(genRow, 22).Value
+            ' お届け先側にもMailを表示(G17)。メールは注文者のもの1件のみ(#7 社長指示 2026-07-01)
+            wsNob.Cells(17, 7).NumberFormat = "@"
+            wsNob.Cells(17, 7).Value = "Mail：" & CStr(wsGen.Cells(genRow, 34).Value)
         End If
 
-        ' お届け先情報（編集シートから）
-        wsNob.Cells(11, 8).Value = wsEdit.Cells(i, "E").Value
+        ' お届け先情報（編集シートから）：郵便番号「〒」、名前「様」、TEL接頭辞付き（すべてG列）
+        wsNob.Cells(11, 7).NumberFormat = "@"
+        wsNob.Cells(11, 7).Value = "〒" & CStr(wsEdit.Cells(i, "E").Value)
         wsNob.Cells(12, 7).Value = wsEdit.Cells(i, "F").Value & wsEdit.Cells(i, "G").Value
         wsNob.Cells(13, 7).Value = wsEdit.Cells(i, "H").Value
-        wsNob.Cells(14, 7).Value = wsEdit.Cells(i, "D").Value & " 様"
-        wsNob.Cells(16, 8).NumberFormat = "@"
-        wsNob.Cells(16, 8).Value = CStr(wsEdit.Cells(i, "I").Value)
+        wsNob.Cells(14, 7).Value = wsEdit.Cells(i, "D").Value & "様"
+        wsNob.Cells(16, 7).NumberFormat = "@"
+        wsNob.Cells(16, 7).Value = "TEL：" & CStr(wsEdit.Cells(i, "I").Value)
 
         ' 商品情報（1行目）
         Dim itemName As String: itemName = wsEdit.Cells(i, "C").Value
-        Dim itemAmt As Long: itemAmt = wsEdit.Cells(i, "J").Value
+        Dim itemAmt As Variant: itemAmt = wsEdit.Cells(i, "J").Value
+        If IsEmpty(itemAmt) Or Not IsNumeric(itemAmt) Then itemAmt = 0
         wsNob.Cells(22, 2).Value = itemName
         wsNob.Cells(22, 2).WrapText = False   ' 折り返し解除
-        wsNob.Cells(22, 8).Value = itemAmt    ' 単価（数量1なので売上金額と同じ）
-        wsNob.Cells(22, 9).Value = 1           ' 数量
-        wsNob.Cells(22, 10).Value = itemAmt    ' 小計
+        wsNob.Cells(22, 8).Value = CLng(itemAmt)  ' 単価
+        wsNob.Cells(22, 9).Value = 1               ' 数量
+        wsNob.Cells(22, 10).Value = CLng(itemAmt)  ' 小計
 
         ' 総合計金額
-        wsNob.Cells(19, 4).Value = itemAmt + wsNob.Cells(34, 10).Value
+        Dim soryo As Variant: soryo = wsNob.Cells(34, 10).Value
+        If IsEmpty(soryo) Or Not IsNumeric(soryo) Then soryo = 0
+        wsNob.Cells(19, 4).Value = CLng(itemAmt) + CLng(soryo)
 
         NextNob:
     Next i
