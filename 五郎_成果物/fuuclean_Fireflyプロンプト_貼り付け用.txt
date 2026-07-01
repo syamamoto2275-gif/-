@@ -1,0 +1,65 @@
+fuu clean PR動画 Fireflyプロンプト（貼り付け用）
+※各シーンの英語プロンプトを1つずつコピーしてFireflyに貼ってください。
+
+
+【シーン1 つかみ（暗め）】
+Close-up of hands hesitating with an alcohol spray bottle in a dim kitchen, moody low light, doubtful mood, cinematic, 16:9
+
+
+【シーン2 課題提起（暗め）】
+Dry irritated hands looking sore, and a red no-entry sign over a car interior and electronics, muted dark tones, problem mood, 16:9
+
+
+【シーン3 商品登場（明るく切替）】
+A sleek white spray bottle on a clean bright white background, soft studio lighting, fresh and pure atmosphere, product hero shot, 16:9
+
+
+【シーン4 Agイオン訴求】
+Pure water droplets and shimmering silver light particles on a bright background, science of clean water, elegant, 16:9
+
+
+【シーン5 特長①肌にやさしい】
+A gentle mist sprayed onto soft baby skin and a smiling baby, warm soft light, safe and gentle feeling, 16:9
+
+
+【シーン6 特長②化学薬品不使用】
+Fresh green leaves and clear water on a bright clean background, natural and chemical-free concept, minimal, 16:9
+
+
+【シーン7 特長③効果が続く】
+A clock and a clean sparkling surface staying fresh over time, bright airy tones, long-lasting concept, 16:9
+
+
+【シーン8-1 使用シーン：家庭】
+Bright clean modern kitchen and living room being wiped, cheerful home, 16:9
+
+
+【シーン8-2 使用シーン：病院・介護】
+Clean bright hospital and care facility interior, hygienic and reassuring, 16:9
+
+
+【シーン8-3 使用シーン：飲食店】
+Clean restaurant table and kitchen, fresh and hygienic, warm light, 16:9
+
+
+【シーン8-4 使用シーン：ペット】
+A cute dog and cat in a bright clean home, safe and happy pets, 16:9
+
+
+【シーン9 信頼性データ（背景のみ）】
+Clean minimal laboratory background with soft blue tones, trustworthy and scientific mood, blank space for text, 16:9
+
+
+【シーン10 エンディング（明るく締め）】
+The white spray bottle on a bright fresh background with soft light and copy space, uplifting clean finish, 16:9
+
+
+-----------------------------------------
+■ 動画にしたいとき（テキストから動画）
+上のプロンプトの最後に、次のどれかを付け足すと数秒の動きが付きます。
+, slow gentle camera push-in, subtle motion
+, soft rotating product shot
+
+■ 統一感を出したいとき
+全プロンプトの最後にこれを付けると色味が揃います。
+, clean bright commercial style, high quality, 16:9
