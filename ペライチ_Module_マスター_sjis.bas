@@ -214,6 +214,13 @@ Sub ペライチ_編集シート転記(ws As Worksheet, lastRow As Long)
         Dim info() As String
         info = Get配送情報(ws, i)
 
+        ' 郵便・住所・電話は「文字」書式にしてから入れる。
+        ' これをしないと「443」等の数字だけの住所をExcelが日付(1901/3/18)に化けさせる(社長指摘 2026-07-01)
+        wsEdit.Cells(editRow, "E").NumberFormat = "@"  ' 郵便番号
+        wsEdit.Cells(editRow, "G").NumberFormat = "@"  ' 住所1
+        wsEdit.Cells(editRow, "H").NumberFormat = "@"  ' 住所2
+        wsEdit.Cells(editRow, "I").NumberFormat = "@"  ' 電話番号
+
         wsEdit.Cells(editRow, "A").Value = ws.Cells(i, COL_SHIPMETHOD).Value
         wsEdit.Cells(editRow, "B").Value = ws.Cells(i, COL_ORDERNO).Value
         wsEdit.Cells(editRow, "C").Value = ws.Cells(i, COL_ITEMNAME).Value
@@ -339,6 +346,9 @@ Sub 実行2_ペライチ_出荷CSV作成()
         If InStr(method, "ペット") > 0 And InStr(method, "クリック") > 0 Then
             ' ペットクリック物出し
             If Not wsPetClick Is Nothing Then
+                wsPetClick.Cells(rPC, 5).NumberFormat = "@"  ' 郵便
+                wsPetClick.Cells(rPC, 7).NumberFormat = "@"  ' 住所2(数字だけでも日付化しない)
+                wsPetClick.Cells(rPC, 8).NumberFormat = "@"  ' 電話
                 wsPetClick.Cells(rPC, 1).Value = method
                 wsPetClick.Cells(rPC, 2).Value = orderNo
                 wsPetClick.Cells(rPC, 3).Value = iName
@@ -351,6 +361,8 @@ Sub 実行2_ペライチ_出荷CSV作成()
             End If
             ' ペット_クリック一括発行アップデータ
             If Not wsPetClickUpd Is Nothing Then
+                wsPetClickUpd.Cells(rPCU, 1).NumberFormat = "@"  ' 郵便
+                wsPetClickUpd.Cells(rPCU, 6).NumberFormat = "@"  ' 住所2(数字だけでも日付化しない)
                 wsPetClickUpd.Cells(rPCU, 1).Value = post
                 wsPetClickUpd.Cells(rPCU, 2).Value = dName
                 wsPetClickUpd.Cells(rPCU, 3).Value = "様"
@@ -403,6 +415,10 @@ Sub 実行2_ペライチ_出荷CSV作成()
             End If
             ' 佐川E飛伝アップデータ
             If Not wsSagawaUpd Is Nothing Then
+                wsSagawaUpd.Cells(rSG, 3).NumberFormat = "@"  ' 電話
+                wsSagawaUpd.Cells(rSG, 4).NumberFormat = "@"  ' 郵便
+                wsSagawaUpd.Cells(rSG, 6).NumberFormat = "@"  ' 住所1
+                wsSagawaUpd.Cells(rSG, 7).NumberFormat = "@"  ' 住所2(数字だけでも日付化しない)
                 wsSagawaUpd.Cells(rSG, 3).Value = tel
                 wsSagawaUpd.Cells(rSG, 4).Value = post
                 wsSagawaUpd.Cells(rSG, 5).Value = pref
@@ -431,6 +447,10 @@ Sub 実行2_ペライチ_出荷CSV作成()
             End If
             ' 佐川E飛伝アップデータ
             If Not wsSagawaUpd Is Nothing Then
+                wsSagawaUpd.Cells(rSG, 3).NumberFormat = "@"  ' 電話
+                wsSagawaUpd.Cells(rSG, 4).NumberFormat = "@"  ' 郵便
+                wsSagawaUpd.Cells(rSG, 6).NumberFormat = "@"  ' 住所1
+                wsSagawaUpd.Cells(rSG, 7).NumberFormat = "@"  ' 住所2(数字だけでも日付化しない)
                 wsSagawaUpd.Cells(rSG, 3).Value = tel
                 wsSagawaUpd.Cells(rSG, 4).Value = post
                 wsSagawaUpd.Cells(rSG, 5).Value = pref
@@ -560,6 +580,8 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
             ' 顧客：郵便番号は先頭に「〒」、名前は末尾に「様」、TEL/Mailは接頭辞付き（すべてB列）
             wsNob.Cells(11, 2).NumberFormat = "@"
             wsNob.Cells(11, 2).Value = "〒" & CStr(wsGen.Cells(genRow, COL_CUST_POST).Value)
+            wsNob.Cells(12, 2).NumberFormat = "@"  ' 住所は数字だけでも文字扱い(日付化防止)
+            wsNob.Cells(13, 2).NumberFormat = "@"
             wsNob.Cells(12, 2).Value = wsGen.Cells(genRow, COL_CUST_PREF).Value & _
                                         wsGen.Cells(genRow, COL_CUST_ADDR1).Value
             wsNob.Cells(13, 2).Value = wsGen.Cells(genRow, COL_CUST_ADDR2).Value
@@ -577,6 +599,8 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
         ' お届け先情報（編集シートから）：郵便番号「〒」、名前「様」、TEL接頭辞付き（すべてG列）
         wsNob.Cells(11, 7).NumberFormat = "@"
         wsNob.Cells(11, 7).Value = "〒" & CStr(wsEdit.Cells(i, "E").Value)
+        wsNob.Cells(12, 7).NumberFormat = "@"  ' 住所は数字だけでも文字扱い(日付化防止)
+        wsNob.Cells(13, 7).NumberFormat = "@"
         wsNob.Cells(12, 7).Value = wsEdit.Cells(i, "F").Value & wsEdit.Cells(i, "G").Value
         wsNob.Cells(13, 7).Value = wsEdit.Cells(i, "H").Value
         wsNob.Cells(14, 7).Value = wsEdit.Cells(i, "D").Value & "様"
