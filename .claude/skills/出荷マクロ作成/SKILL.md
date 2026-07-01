@@ -156,6 +156,30 @@ End Function
 
 ---
 
+## 実物xlsmを安全に編集する（ボタン・マクロを壊さない）
+
+実行1/2/3ボタン付きの実物 .xlsm のセルを書き換える／ひな型化する時の鉄則。
+（2026-07-01、ペライチのマスターひな型化で実証）
+
+- **openpyxl で直接書き換えない。** フォームコントロール（ボタン）や描画が壊れる恐れがある。
+  openpyxl は「読み取り・検証」専用にする。
+- 編集は **Excel の COM 自動操作（PowerShell）** で行う（マクロ・ボタン・書式を保持）。
+- **手順：**
+  1. 編集前に必ず原本をバックアップ（同フォルダの `_backup\` 等へ Copy-Item）。元に戻せる状態を作る。
+  2. Excel COM を開く時は `$excel.AutomationSecurity = 3`（マクロ強制無効）＋ `$excel.EnableEvents=$false`
+     ＋ `$excel.DisplayAlerts=$false`。開いた瞬間にマクロが走らないようにする。
+  3. セル編集は `$ws.Cells.Item(行,列).Value2`。データ行の一括消去は `$ws.Rows("2:$last").ClearContents()`
+     （1行目の見出しは残す）。納品書の空化は `ペライチ_納品書作成` の clear ロジックと同じセルを空にする。
+  4. `$wb.Save()` → `$wb.Close($true)` → `$excel.Quit()` → `ReleaseComObject` ＋ `[GC]::Collect()`
+     で Excel.exe の残留を防ぐ。
+  5. 保存後に openpyxl＋zipfile で検証：`vbaProject.bin`（マクロ）・`drawing`（ボタン）・`ctrlProp`
+     （フォームコントロール）が残っているか、シート総数が変わっていないか、顧客データが0件かを確認。
+- **顧客データの検証は値を転写しない。** PII読み出しはブロックされる。「空か／接頭辞で始まるか」等の
+  True/False だけを出力してチェックする。
+- ひな型化＝顧客データ全消去は **ルール5（顧客データの取り扱い）** に従う（`五郎_共通ルール.md`）。
+
+---
+
 ## 参照ファイル
 
 - [references/チャネル別_仕様.md](references/チャネル別_仕様.md) — 各チャネルの列マッピング・シート名・出力先・既知の差異
