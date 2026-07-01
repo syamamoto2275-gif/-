@@ -176,6 +176,12 @@ Sub 実行1_ペライチ_発送方法自動判定()
 
     Application.ScreenUpdating = True
 
+    ' 実行1の後は編集シートを表示する（A列の発送方法を確認してもらうため）(社長指示 2026-07-01)
+    Dim shEdit As Worksheet
+    For Each shEdit In ThisWorkbook.Sheets
+        If shEdit.Name = "編集" Then shEdit.Activate: Exit For
+    Next shEdit
+
     MsgBox "発送方法をAR列に自動入力し、編集シートにデータを転記しました。" & Chr(13) & Chr(13) & _
            "【確認してください】" & Chr(13) & _
            "・編集シートのA列で発送方法を確認" & Chr(13) & _
@@ -565,9 +571,7 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
             wsNob.Cells(34, 10).Value = wsGen.Cells(genRow, 10).Value  ' J=送料
             ' お支払い方法(I37)…元データV列=支払い方法を反映（外部リンクの代わり）(#8)
             wsNob.Cells(37, 9).Value = wsGen.Cells(genRow, 22).Value
-            ' お届け先側にもMailを表示(G17)。メールは注文者のもの1件のみ(#7 社長指示 2026-07-01)
-            wsNob.Cells(17, 7).NumberFormat = "@"
-            wsNob.Cells(17, 7).Value = "Mail：" & CStr(wsGen.Cells(genRow, 34).Value)
+            ' ※お届け先G17のメールは表示しない（社長指示 2026-07-01：G17メール不要）
         End If
 
         ' お届け先情報（編集シートから）：郵便番号「〒」、名前「様」、TEL接頭辞付き（すべてG列）
