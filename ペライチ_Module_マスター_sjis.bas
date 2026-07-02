@@ -111,6 +111,62 @@ End Sub
 
 
 '--------------------------------------------------
+' 佐川E飛伝アップデータをCSVファイルに出力する
+'   保存先: …\Dropbox\ネットショップ\【出荷】ペライチ\e飛伝データ ペライチ\
+'   ファイル名: fuuペライチ_佐川E飛伝_YYYY_MMDD.csv（Shift-JIS）
+'   佐川データが1件以上（見出し行のみでない）ときだけ出力する。
+'   列位置を崩さないため、間の空列も含めて1～53列をそのままCSV化する。
+'   戻り値: 保存したフルパス（出力しなかった場合は空文字）
+'--------------------------------------------------
+Private Function 佐川CSV出力(wsSagawaUpd As Worksheet) As String
+    佐川CSV出力 = ""
+    If wsSagawaUpd Is Nothing Then Exit Function
+
+    Dim lastRow As Long
+    lastRow = wsSagawaUpd.Cells(wsSagawaUpd.Rows.Count, 1).End(xlUp).Row
+    If lastRow < 2 Then Exit Function   ' 見出しだけ＝佐川データ無し
+
+    Const LAST_COL As Long = 53         ' 指定シール２まで（E飛伝の列位置を保つ）
+
+    Dim folder As String
+    folder = "C:\Users\" & Environ("USERNAME") & _
+             "\Dropbox\ネットショップ\【出荷】ペライチ\e飛伝データ ペライチ\"
+    If Dir(folder, vbDirectory) = "" Then
+        MsgBox "佐川CSVの保存先フォルダが見つかりません：" & Chr(13) & folder & Chr(13) & Chr(13) & _
+               "佐川シートは作成済みです。フォルダを確認してください。", vbExclamation
+        Exit Function
+    End If
+
+    Dim filePath As String
+    filePath = folder & "fuuペライチ_佐川E飛伝_" & Format(Date, "yyyy_mmdd") & ".csv"
+
+    Dim fno As Integer: fno = FreeFile
+    Open filePath For Output As #fno   ' 日本語Windowsでは Shift-JIS で書き出される
+    Dim r As Long, c As Long, lineStr As String, cellStr As String
+    For r = 1 To lastRow
+        lineStr = ""
+        For c = 1 To LAST_COL
+            cellStr = CStr(wsSagawaUpd.Cells(r, c).Value)
+            ' カンマ・改行・引用符を含む値はダブルクオートで囲む（CSVエスケープ）
+            If InStr(cellStr, ",") > 0 Or InStr(cellStr, """") > 0 Or _
+               InStr(cellStr, Chr(13)) > 0 Or InStr(cellStr, Chr(10)) > 0 Then
+                cellStr = """" & Replace(cellStr, """", """""") & """"
+            End If
+            If c = 1 Then
+                lineStr = cellStr
+            Else
+                lineStr = lineStr & "," & cellStr
+            End If
+        Next c
+        Print #fno, lineStr
+    Next r
+    Close #fno
+
+    佐川CSV出力 = filePath
+End Function
+
+
+'--------------------------------------------------
 ' 実行1: 発送方法をAR列に自動入力 + 編集シートへ転記
 '--------------------------------------------------
 Sub 実行1_ペライチ_発送方法自動判定()
@@ -362,9 +418,9 @@ Sub 実行2_ペライチ_出荷CSV作成()
 
         Dim prod As String
         If InStr(method, "衣類") > 0 Then
-            prod = "ペライチ / 衣類"
+            prod = "shop fuu / 衣類"
         Else
-            prod = "ペライチ / ペット用品"
+            prod = "shop fuu / ペット用品"
         End If
 
         If InStr(method, "ペット") > 0 And InStr(method, "クリック") > 0 Then
@@ -509,6 +565,15 @@ Sub 実行2_ペライチ_出荷CSV作成()
 
     ' 納品書シートにデータを作成
     Call ペライチ_納品書作成(wsEdit, lastRow)
+
+    ' 佐川E飛伝アップデータをCSVファイルに出力（佐川が1件以上のときだけ）(社長指示 2026-07-02)
+    If (c3 + c4) > 0 Then
+        Dim sgCsvPath As String
+        sgCsvPath = 佐川CSV出力(wsSagawaUpd)
+        If sgCsvPath <> "" Then
+            msg = msg & Chr(13) & "佐川E飛伝CSVを保存しました：" & Chr(13) & sgCsvPath & Chr(13)
+        End If
+    End If
 
     ' 実行2の後はペットクリック物出しシートを表示する(#3 社長指示 2026-07-01)
     If Not wsPetClick Is Nothing Then wsPetClick.Activate
