@@ -113,9 +113,9 @@ End Sub
 '--------------------------------------------------
 ' 佐川E飛伝アップデータをCSVファイルに出力する
 '   保存先: …\Dropbox\ネットショップ\【出荷】ペライチ\e飛伝データ ペライチ\
-'   ファイル名: fuuペライチ_佐川E飛伝_YYYY_MMDD.csv（Shift-JIS）
+'   ファイル名: ペライチ佐川YYYY.M.D.csv（Shift-JIS。社長の運用どおりの命名。月日は0埋めしない）
 '   佐川データが1件以上（見出し行のみでない）ときだけ出力する。
-'   列位置を崩さないため、間の空列も含めて1〜53列をそのままCSV化する。
+'   列位置を崩さないため、間の空列も含めて1〜74列（e飛伝の正規フォーマット）をそのままCSV化する。
 '   戻り値: 保存したフルパス（出力しなかった場合は空文字）
 '--------------------------------------------------
 Private Function 佐川CSV出力(wsSagawaUpd As Worksheet) As String
@@ -126,7 +126,7 @@ Private Function 佐川CSV出力(wsSagawaUpd As Worksheet) As String
     lastRow = wsSagawaUpd.Cells(wsSagawaUpd.Rows.Count, 1).End(xlUp).Row
     If lastRow < 2 Then Exit Function   ' 見出しだけ＝佐川データ無し
 
-    Const LAST_COL As Long = 53         ' 指定シール２まで（E飛伝の列位置を保つ）
+    Const LAST_COL As Long = 74         ' 編集１０まで（e飛伝の正規フォーマット74列）
 
     Dim folder As String
     folder = "C:\Users\" & Environ("USERNAME") & _
@@ -138,7 +138,7 @@ Private Function 佐川CSV出力(wsSagawaUpd As Worksheet) As String
     End If
 
     Dim filePath As String
-    filePath = folder & "fuuペライチ_佐川E飛伝_" & Format(Date, "yyyy_mmdd") & ".csv"
+    filePath = folder & "ペライチ佐川" & Year(Date) & "." & Month(Date) & "." & Day(Date) & ".csv"
 
     Dim fno As Integer: fno = FreeFile
     Open filePath For Output As #fno   ' 日本語Windowsでは Shift-JIS で書き出される
@@ -164,6 +164,68 @@ Private Function 佐川CSV出力(wsSagawaUpd As Worksheet) As String
 
     佐川CSV出力 = filePath
 End Function
+
+
+'--------------------------------------------------
+' 佐川E飛伝アップデータの見出し(1行目・74列)を正規フォーマットにそろえる
+' （お手本 ペライチ佐川2026.6.29.csv と同一の並び）
+'--------------------------------------------------
+Private Sub 佐川見出し設定(ws As Worksheet)
+    If ws Is Nothing Then Exit Sub
+    Dim h As Variant
+    h = Array( _
+        "お届け先コード取得区分", "お届け先コード", "お届け先電話番号", "お届け先郵便番号", _
+        "お届け先住所１", "お届け先住所２", "お届け先住所３", "お届け先名称１", "お届け先名称２", _
+        "お客様管理番号", "お客様コード", "部署ご担当者コード取得区分", "部署ご担当者コード", _
+        "部署ご担当者名称", "荷送人電話番号", "ご依頼主コード取得区分", "ご依頼主コード", _
+        "ご依頼主電話番号", "ご依頼主郵便番号", "ご依頼主住所１", "ご依頼主住所２", _
+        "ご依頼主名称１", "ご依頼主名称２", "荷姿", "品名１", "品名２", "品名３", "品名４", "品名５", _
+        "荷札荷姿", "荷札品名１", "荷札品名２", "荷札品名３", "荷札品名４", "荷札品名５", _
+        "荷札品名６", "荷札品名７", "荷札品名８", "荷札品名９", "荷札品名１０", "荷札品名１１", _
+        "出荷個数", "スピード指定", "クール便指定", "配達日", "配達指定時間帯", "配達指定時間（時分）", _
+        "代引金額", "消費税", "決済種別", "保険金額", "指定シール１", "指定シール２", "指定シール３", _
+        "営業所受取", "SRC区分", "営業所受取営業所コード", "元着区分", "メールアドレス", "ご不在時連絡先", _
+        "出荷日", "お問い合せ送り状No.", "出荷場印字区分", "集約解除指定", _
+        "編集０１", "編集０２", "編集０３", "編集０４", "編集０５", "編集０６", "編集０７", "編集０８", "編集０９", "編集１０")
+    Dim i As Long
+    For i = 0 To UBound(h)
+        ws.Cells(1, i + 1).Value = h(i)
+    Next i
+End Sub
+
+
+'--------------------------------------------------
+' 佐川E飛伝アップデータへ1行書き込む（お手本6.29の正規フォーマット）
+'   ご依頼主(shop fuu/小牧)・荷姿・出荷個数・スピード・クール便・指定シールは固定値。
+'   お届け先・注文番号(お客様管理番号)・品名は引数で受ける。
+'   コード類(001/000/013等)は先頭ゼロを保つため文字書式(@)で入れる。
+'--------------------------------------------------
+Private Sub 佐川行書込(ws As Worksheet, r As Long, orderNo As String, _
+                       tel As String, post As String, pref As String, _
+                       addr1 As String, addr2 As String, dName As String, hinmei As String)
+    ' お届け先
+    ws.Cells(r, 3).NumberFormat = "@": ws.Cells(r, 3).Value = tel        ' お届け先電話番号
+    ws.Cells(r, 4).NumberFormat = "@": ws.Cells(r, 4).Value = post       ' お届け先郵便番号
+    ws.Cells(r, 5).NumberFormat = "@": ws.Cells(r, 5).Value = pref       ' 住所１
+    ws.Cells(r, 6).NumberFormat = "@": ws.Cells(r, 6).Value = addr1      ' 住所２
+    ws.Cells(r, 7).NumberFormat = "@": ws.Cells(r, 7).Value = addr2      ' 住所３
+    ws.Cells(r, 8).Value = dName                                          ' 名称１
+    ws.Cells(r, 10).NumberFormat = "@": ws.Cells(r, 10).Value = orderNo  ' お客様管理番号＝注文番号
+    ' ご依頼主（固定：shop fuu／株式会社SEED 小牧）
+    ws.Cells(r, 18).NumberFormat = "@": ws.Cells(r, 18).Value = "0568-47-5090"
+    ws.Cells(r, 19).NumberFormat = "@": ws.Cells(r, 19).Value = "485-0814"
+    ws.Cells(r, 20).Value = "愛知県小牧市"
+    ws.Cells(r, 21).Value = "古雅３－６１－４"
+    ws.Cells(r, 22).Value = "ｓｈｏｐ　ｆｕｕ"
+    ' 荷姿・品名・出荷個数・スピード・クール便・指定シール（固定：お手本6.29に一致）
+    ws.Cells(r, 24).NumberFormat = "@": ws.Cells(r, 24).Value = "001"    ' 荷姿
+    ws.Cells(r, 25).Value = hinmei                                        ' 品名１
+    ws.Cells(r, 42).Value = 1                                             ' 出荷個数
+    ws.Cells(r, 43).NumberFormat = "@": ws.Cells(r, 43).Value = "000"    ' スピード指定
+    ws.Cells(r, 44).NumberFormat = "@": ws.Cells(r, 44).Value = "001"    ' クール便指定（お手本6.29に合わせる）
+    ws.Cells(r, 52).NumberFormat = "@": ws.Cells(r, 52).Value = "013"    ' 指定シール１
+    ws.Cells(r, 53).NumberFormat = "@": ws.Cells(r, 53).Value = "011"    ' 指定シール２
+End Sub
 
 
 '--------------------------------------------------
@@ -372,23 +434,12 @@ Sub 実行2_ペライチ_出荷CSV作成()
     Call クリックPost見出し設定(wsPetClickUpd)
     Call クリックPost見出し設定(wsIruiClickUpd)
 
-    ' 佐川シートを作り直す：行1=見出し・行2以降=データ（説明文と空行は無し）(#4 社長指示 2026-07-01)
+    ' 佐川シートを作り直す：行1=見出し(74列 正規フォーマット)・行2以降=データ (社長指示 2026-07-02)
     If Not wsSagawaUpd Is Nothing Then
         Dim lrSg As Long
         lrSg = wsSagawaUpd.Cells(wsSagawaUpd.Rows.Count, 1).End(xlUp).Row
         If lrSg >= 1 Then wsSagawaUpd.Rows("1:" & lrSg).ClearContents
-        wsSagawaUpd.Cells(1, 1).Value = "お届け先コード取得区分"
-        wsSagawaUpd.Cells(1, 2).Value = "お届け先コード"
-        wsSagawaUpd.Cells(1, 3).Value = "お届け先電話番号"
-        wsSagawaUpd.Cells(1, 4).Value = "お届け先郵便番号"
-        wsSagawaUpd.Cells(1, 5).Value = "お届け先住所１"
-        wsSagawaUpd.Cells(1, 6).Value = "お届け先住所２"
-        wsSagawaUpd.Cells(1, 7).Value = "お届け先住所３"
-        wsSagawaUpd.Cells(1, 8).Value = "お届け先名称１"
-        wsSagawaUpd.Cells(1, 9).Value = "お届け先名称２"
-        wsSagawaUpd.Cells(1, 25).Value = "品名１"
-        wsSagawaUpd.Cells(1, 52).Value = "指定シール１"
-        wsSagawaUpd.Cells(1, 53).Value = "指定シール２"
+        Call 佐川見出し設定(wsSagawaUpd)
     End If
 
     ' 書き込み行カウンター
@@ -416,12 +467,10 @@ Sub 実行2_ペライチ_出荷CSV作成()
         Dim addr2 As String: addr2 = wsEdit.Cells(i, "H").Value
         Dim tel As String: tel = wsEdit.Cells(i, "I").Value
 
+        ' 内容品・品名はクリック/佐川とも「shop fuu / ペット用品」に統一
+        ' （社長指示 2026-07-02：ペライチは衣類の販売なし）
         Dim prod As String
-        If InStr(method, "衣類") > 0 Then
-            prod = "shop fuu / 衣類"
-        Else
-            prod = "shop fuu / ペット用品"
-        End If
+        prod = "shop fuu / ペット用品"
 
         If InStr(method, "ペット") > 0 And InStr(method, "クリック") > 0 Then
             ' ペットクリック物出し
@@ -497,21 +546,9 @@ Sub 実行2_ペライチ_出荷CSV作成()
                 wsPetSagawa.Cells(rPS, 8).Value = tel
                 rPS = rPS + 1
             End If
-            ' 佐川E飛伝アップデータ
+            ' 佐川E飛伝アップデータ（正規フォーマットで1行書込）
             If Not wsSagawaUpd Is Nothing Then
-                wsSagawaUpd.Cells(rSG, 3).NumberFormat = "@"  ' 電話
-                wsSagawaUpd.Cells(rSG, 4).NumberFormat = "@"  ' 郵便
-                wsSagawaUpd.Cells(rSG, 6).NumberFormat = "@"  ' 住所1
-                wsSagawaUpd.Cells(rSG, 7).NumberFormat = "@"  ' 住所2(数字だけでも日付化しない)
-                wsSagawaUpd.Cells(rSG, 3).Value = tel
-                wsSagawaUpd.Cells(rSG, 4).Value = post
-                wsSagawaUpd.Cells(rSG, 5).Value = pref
-                wsSagawaUpd.Cells(rSG, 6).Value = addr1
-                wsSagawaUpd.Cells(rSG, 7).Value = addr2
-                wsSagawaUpd.Cells(rSG, 8).Value = dName
-                wsSagawaUpd.Cells(rSG, 25).Value = prod
-                wsSagawaUpd.Cells(rSG, 52).Value = "011"
-                wsSagawaUpd.Cells(rSG, 53).Value = "012"
+                Call 佐川行書込(wsSagawaUpd, rSG, orderNo, tel, post, pref, addr1, addr2, dName, prod)
                 rSG = rSG + 1
             End If
             c3 = c3 + 1
@@ -529,21 +566,9 @@ Sub 実行2_ペライチ_出荷CSV作成()
                 wsIrui.Cells(rIR, 8).Value = tel
                 rIR = rIR + 1
             End If
-            ' 佐川E飛伝アップデータ
+            ' 佐川E飛伝アップデータ（正規フォーマットで1行書込）※ペライチは衣類販売なしのため通常ここは通らない
             If Not wsSagawaUpd Is Nothing Then
-                wsSagawaUpd.Cells(rSG, 3).NumberFormat = "@"  ' 電話
-                wsSagawaUpd.Cells(rSG, 4).NumberFormat = "@"  ' 郵便
-                wsSagawaUpd.Cells(rSG, 6).NumberFormat = "@"  ' 住所1
-                wsSagawaUpd.Cells(rSG, 7).NumberFormat = "@"  ' 住所2(数字だけでも日付化しない)
-                wsSagawaUpd.Cells(rSG, 3).Value = tel
-                wsSagawaUpd.Cells(rSG, 4).Value = post
-                wsSagawaUpd.Cells(rSG, 5).Value = pref
-                wsSagawaUpd.Cells(rSG, 6).Value = addr1
-                wsSagawaUpd.Cells(rSG, 7).Value = addr2
-                wsSagawaUpd.Cells(rSG, 8).Value = dName
-                wsSagawaUpd.Cells(rSG, 25).Value = prod
-                wsSagawaUpd.Cells(rSG, 52).Value = "011"
-                wsSagawaUpd.Cells(rSG, 53).Value = "012"
+                Call 佐川行書込(wsSagawaUpd, rSG, orderNo, tel, post, pref, addr1, addr2, dName, prod)
                 rSG = rSG + 1
             End If
             c4 = c4 + 1
@@ -598,22 +623,22 @@ Sub ペライチ_納品書作成(wsEdit As Worksheet, lastRow As Long)
             sh.Cells(5, 10).Value = ""  ' 注文日
             ' 顧客側はB列に集約（C列は使わない＝空にする）
             sh.Cells(11, 2).Value = ""  ' 顧客郵便番号(B11)
-            sh.Cells(11, 3).Value = ""  ' C11は使わない
+            sh.Cells(11, 3).ClearContents  ' C11は使わない(空文字だとB11がはみ出せず切れるのでClearContents)
             sh.Cells(12, 2).Value = ""  ' 顧客住所1
             sh.Cells(13, 2).Value = ""  ' 顧客住所2
             sh.Cells(14, 2).Value = "様"  ' 顧客名リセット(B14)
             sh.Cells(16, 2).Value = ""  ' 顧客TEL(B16)
-            sh.Cells(16, 3).Value = ""  ' C16は使わない
+            sh.Cells(16, 3).ClearContents  ' C16は使わない(空文字だとB16のTELが切れるのでClearContents)
             sh.Cells(17, 2).Value = ""  ' 顧客Mail(B17)
-            sh.Cells(17, 3).Value = ""  ' C17は使わない
+            sh.Cells(17, 3).ClearContents  ' C17は使わない(空文字だとB17のMailが切れるのでClearContents)
             ' お届け先側はG列に集約（H列は使わない＝空にする）
             sh.Cells(11, 7).Value = ""  ' お届け先郵便番号(G11)
-            sh.Cells(11, 8).Value = ""  ' H11は使わない
+            sh.Cells(11, 8).ClearContents  ' H11は使わない(空文字だとG11がはみ出せず切れるのでClearContents)
             sh.Cells(12, 7).Value = ""  ' お届け先住所1
             sh.Cells(13, 7).Value = ""  ' お届け先住所2
             sh.Cells(14, 7).Value = "様"  ' お届け先名リセット(G14)
             sh.Cells(16, 7).Value = ""  ' お届け先TEL(G16)
-            sh.Cells(16, 8).Value = ""  ' H16は使わない
+            sh.Cells(16, 8).ClearContents  ' H16は使わない(空文字だとG16のTELが切れるのでClearContents)
             sh.Cells(17, 7).Value = ""  ' お届け先Mail(G17)リセット(#7)
             sh.Cells(19, 4).Value = ""  ' 総合計金額
             sh.Cells(22, 8).Value = ""  ' 単価(H22)…実行毎に入れ直すのでリセット(#1 社長指示 2026-07-01)
