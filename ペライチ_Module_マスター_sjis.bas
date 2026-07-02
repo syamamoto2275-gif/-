@@ -91,6 +91,26 @@ End Sub
 
 
 '--------------------------------------------------
+' クリックポスト 一括発行アップデータの見出し（1行目）を正しい8列にそろえる
+' クリックポストの「まとめ入力用CSV」は必ず次の8列。内容品は必ず8列目。
+'   1 お届け先郵便番号 / 2 お届け先氏名 / 3 お届け先敬称
+'   4 住所1行目 / 5 住所2行目 / 6 住所3行目 / 7 住所4行目(空でも可) / 8 内容品
+' 見出しが7列だと「1行目の項目数が足りません」で弾かれるため、毎回ここで整える。
+'--------------------------------------------------
+Private Sub クリックPost見出し設定(ws As Worksheet)
+    If ws Is Nothing Then Exit Sub
+    ws.Cells(1, 1).Value = "お届け先郵便番号"
+    ws.Cells(1, 2).Value = "お届け先氏名"
+    ws.Cells(1, 3).Value = "お届け先敬称"
+    ws.Cells(1, 4).Value = "お届け先住所1行目"
+    ws.Cells(1, 5).Value = "お届け先住所2行目"
+    ws.Cells(1, 6).Value = "お届け先住所3行目"
+    ws.Cells(1, 7).Value = "お届け先住所4行目"
+    ws.Cells(1, 8).Value = "内容品"
+End Sub
+
+
+'--------------------------------------------------
 ' 実行1: 発送方法をAR列に自動入力 + 編集シートへ転記
 '--------------------------------------------------
 Sub 実行1_ペライチ_発送方法自動判定()
@@ -292,6 +312,10 @@ Sub 実行2_ペライチ_出荷CSV作成()
     Call シートクリア(wsPetClickUpd, 2)
     Call シートクリア(wsIruiClickUpd, 2)
 
+    ' クリックポスト一括発行アップデータの見出しを正しい8列に整える（内容品を8列目に）
+    Call クリックPost見出し設定(wsPetClickUpd)
+    Call クリックPost見出し設定(wsIruiClickUpd)
+
     ' 佐川シートを作り直す：行1=見出し・行2以降=データ（説明文と空行は無し）(#4 社長指示 2026-07-01)
     If Not wsSagawaUpd Is Nothing Then
         Dim lrSg As Long
@@ -359,17 +383,18 @@ Sub 実行2_ペライチ_出荷CSV作成()
                 wsPetClick.Cells(rPC, 8).Value = tel
                 rPC = rPC + 1
             End If
-            ' ペット_クリック一括発行アップデータ
+            ' ペット_クリック一括発行アップデータ（クリックポスト8列：内容品は8列目）
             If Not wsPetClickUpd Is Nothing Then
                 wsPetClickUpd.Cells(rPCU, 1).NumberFormat = "@"  ' 郵便
-                wsPetClickUpd.Cells(rPCU, 6).NumberFormat = "@"  ' 住所2(数字だけでも日付化しない)
+                wsPetClickUpd.Cells(rPCU, 6).NumberFormat = "@"  ' 住所3行目(数字だけでも日付化しない)
                 wsPetClickUpd.Cells(rPCU, 1).Value = post
                 wsPetClickUpd.Cells(rPCU, 2).Value = dName
                 wsPetClickUpd.Cells(rPCU, 3).Value = "様"
-                wsPetClickUpd.Cells(rPCU, 4).Value = pref
-                wsPetClickUpd.Cells(rPCU, 5).Value = addr1
-                wsPetClickUpd.Cells(rPCU, 6).Value = addr2
-                wsPetClickUpd.Cells(rPCU, 7).Value = prod
+                wsPetClickUpd.Cells(rPCU, 4).Value = pref     ' 住所1行目
+                wsPetClickUpd.Cells(rPCU, 5).Value = addr1    ' 住所2行目
+                wsPetClickUpd.Cells(rPCU, 6).Value = addr2    ' 住所3行目
+                wsPetClickUpd.Cells(rPCU, 7).Value = ""       ' 住所4行目(未使用でも8列必須なので空で置く)
+                wsPetClickUpd.Cells(rPCU, 8).Value = prod     ' 内容品(必ず8列目)
                 rPCU = rPCU + 1
             End If
             c1 = c1 + 1
@@ -387,15 +412,18 @@ Sub 実行2_ペライチ_出荷CSV作成()
                 wsIrui.Cells(rIR, 8).Value = tel
                 rIR = rIR + 1
             End If
-            ' 衣類_クリック一括発行アップデータ
+            ' 衣類_クリック一括発行アップデータ（クリックポスト8列：内容品は8列目）
             If Not wsIruiClickUpd Is Nothing Then
+                wsIruiClickUpd.Cells(rICU, 1).NumberFormat = "@"  ' 郵便
+                wsIruiClickUpd.Cells(rICU, 6).NumberFormat = "@"  ' 住所3行目(数字だけでも日付化しない)
                 wsIruiClickUpd.Cells(rICU, 1).Value = post
                 wsIruiClickUpd.Cells(rICU, 2).Value = dName
                 wsIruiClickUpd.Cells(rICU, 3).Value = "様"
-                wsIruiClickUpd.Cells(rICU, 4).Value = pref
-                wsIruiClickUpd.Cells(rICU, 5).Value = addr1
-                wsIruiClickUpd.Cells(rICU, 6).Value = addr2
-                wsIruiClickUpd.Cells(rICU, 7).Value = prod
+                wsIruiClickUpd.Cells(rICU, 4).Value = pref     ' 住所1行目
+                wsIruiClickUpd.Cells(rICU, 5).Value = addr1    ' 住所2行目
+                wsIruiClickUpd.Cells(rICU, 6).Value = addr2    ' 住所3行目
+                wsIruiClickUpd.Cells(rICU, 7).Value = ""       ' 住所4行目(未使用でも8列必須なので空で置く)
+                wsIruiClickUpd.Cells(rICU, 8).Value = prod     ' 内容品(必ず8列目)
                 rICU = rICU + 1
             End If
             c2 = c2 + 1
