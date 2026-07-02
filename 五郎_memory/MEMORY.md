@@ -12,3 +12,4 @@
 - [手順書は詳しく丁寧に](feedback_detailed_manuals.md) — 「より詳しく・細かく」＋最初の1枚目から一人で完了できる完成度を全AI秘書に要求
 - [祖母の逝去](user_grandmother_passing.md) — 2026年6月25日逝去・同日葬儀。配慮を要する
 - [ルール0：作ったら即push](feedback_always_push.md) — 作成/変更したら即GitHubへpush。2台の五郎の唯一の同期手段
+- [クリックポストCSVは8列](reference_clickpost_csv_format.md) — まとめ入力CSVは固定8列・内容品は必ず8列目・住所4行目を省くと拒否
